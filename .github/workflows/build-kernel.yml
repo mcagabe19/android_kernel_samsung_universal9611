@@ -5,6 +5,7 @@ on:
     branches:
       - SomethingNew-15
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   build:
