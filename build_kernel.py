@@ -11,10 +11,21 @@ class CommandError(Exception):
 
 def run_command(command):
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate()
+    stdout, stdout = process.communicate()
+    def write_logs(out, err):
+        out = out.decode("utf-8")
+        err = err.decode("utf-8")
+        stdout_log = "stdout.log"
+        stderr_log = "stderr.log"
+        with open(stdout_log, "w") as f:
+            f.write(out)
+        with open(stderr_log, "w") as f:
+            f.write(err)
+        print(f"Output log files: {stdout_log}, {stderr_log}")
+
     if process.returncode != 0:
         raise CommandError(f"Command failed: {command}. Exit code: {process.returncode}")
-    return stdout.decode("utf-8"), stderr.decode("utf-8")
+    return write_logs(stdout, stderr)
 
 def file_exists(filepath):
     if not os.path.exists(filepath):
