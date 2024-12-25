@@ -16,13 +16,13 @@ jobs:
         device: ['a51', 'f41', 'm31s', 'm31', 'm21', 'gta4xl', 'gta4xlwifi']
     name: "Build For ${{ matrix.device }} (${{ matrix.type }})"
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@main
         with:
           fetch-depth: 1
           submodules: true
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           sudo apt update
           sudo apt install libarchive-tools
@@ -34,18 +34,18 @@ jobs:
           bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=latest
           bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") --patch=glibc
 
-      - name: Build The Kernel
+      - name: Build Kernel
         run: python build_kernel.py --${{ matrix.type }} --target=${{ matrix.device }}
 
-      - name: Upload The Kernel
+      - name: Upload Kernel
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: SN_develop_${{ matrix.device }}_${{ matrix.type }}
-          path: "SN_*_*_*_*.zip"
+          path: "SN_*.zip"
           if-no-files-found: error
 
-      - name: Upload The Logs
+      - name: Upload Logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
