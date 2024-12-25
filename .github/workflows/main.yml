@@ -28,14 +28,19 @@ jobs:
           sudo apt install bison flex libssl-dev libarchive-tools
           
       - name: Setup Clang Toolchain
-        run: bash <(curl -s https://gist.githubusercontent.com/cat658011/9462b1778231226b4fae0171a8cf1fd3/raw/setup-toolchain.sh)
+        run: |
+          mkdir toolchain
+          cd toolchain
+          bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=latest
+          bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") --patch=glibc
 
       - name: Build The Kernel
         run: python build_kernel.py --${{ matrix.type }} --target=${{ matrix.device }}
 
       - name: Upload The Kernel
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: SN_develop_${{ matrix.device }}_${{ matrix.type }}.zip
-          path: "../SN_*_*_*_*.zip"
+          path: "SN_*_*_*_*.zip"
           if-no-files-found: error 
