@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install bison flex libssl-dev libarchive-tools
+          sudo apt install libarchive-tools
           
       - name: Setup Clang Toolchain
         run: |
