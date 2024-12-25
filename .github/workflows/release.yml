@@ -18,11 +18,19 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           path: /home/runner
-  
+
+      - name: Download KernelSU Next Manager
+        run: |
+          cd /home/runner
+          LATEST_RELEASE=$(curl -s https://api.github.com/repos/rifsxd/KernelSU-Next/releases/latest)
+          APK_URL=$(echo $LATEST_RELEASE | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
+          curl -L -o KernelSU_Next.apk "$APK_URL"
+   
       - name: Draft the release
         uses: softprops/action-gh-release@v2
         with:
           name: "Actions Build"
           draft: true
           files: |
+            /home/runner/KernelSU_Next.apk
             /home/runner/SN_*.zip
