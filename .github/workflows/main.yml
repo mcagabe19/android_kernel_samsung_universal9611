@@ -28,7 +28,7 @@ jobs:
           sudo apt install bison flex libssl-dev
           
       - name: Setup Clang Toolchain
-        run: bash < (curl -s https://gist.githubusercontent.com/cat658011/9462b1778231226b4fae0171a8cf1fd3/raw/setup-toolchain.sh)
+        run: bash <(curl -s https://gist.githubusercontent.com/cat658011/9462b1778231226b4fae0171a8cf1fd3/raw/setup-toolchain.sh)
 
       - name: Build The Kernel
         run: python build_kernel.py --${{ matrix.type }} --target=${{ matrix.device }}
