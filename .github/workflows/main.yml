@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install bison flex libssl-dev
+          sudo apt install bison flex libssl-dev libarchive-tools
           
       - name: Setup Clang Toolchain
         run: bash <(curl -s https://gist.githubusercontent.com/cat658011/9462b1778231226b4fae0171a8cf1fd3/raw/setup-toolchain.sh)
