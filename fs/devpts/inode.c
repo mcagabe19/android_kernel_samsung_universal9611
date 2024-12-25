@@ -28,10 +28,6 @@
 #include <linux/fsnotify.h>
 #include <linux/seq_file.h>
 
-#ifdef CONFIG_KSU
-#include <ksu_hook.h>
-#endif
-
 #define DEVPTS_DEFAULT_MODE 0600
 /*
  * ptmx is a new node in /dev/pts and will be unused in legacy (single-
