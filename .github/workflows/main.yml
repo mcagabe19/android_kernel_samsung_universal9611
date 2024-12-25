@@ -46,6 +46,7 @@ jobs:
           if-no-files-found: error
 
       - name: Upload The Logs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: SN_develop_${{ matrix.device }}_${{ matrix.type }}-log.zip
