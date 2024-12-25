@@ -9,23 +9,22 @@ import zipfile
 class CommandError(Exception):
     pass
 
-def run_command(command):
+def run_command(command, stdout_log_file=None, stderr_log_file=None):
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
-    def write_logs(out, err):
-        out = out.decode("utf-8")
-        err = err.decode("utf-8")
-        stdout_log = "stdout.log"
-        stderr_log = "stderr.log"
-        with open(stdout_log, "w") as f:
-            f.write(out)
-        with open(stderr_log, "w") as f:
-            f.write(err)
-        print(f"Output log files: {stdout_log}, {stderr_log}")
-
+    stdout = stdout.decode("utf-8")
+    stderr = stderr.decode("utf-8")
+    if stdout_log_file:
+        with open(stdout_log_file, "w") as f:
+            f.write(stdout)
+    if stderr_log_file:
+        with open(stderr_log_file, "w") as f:
+            f.write(stderr)
+    if stdout_log_file or stderr_log_file:
+        print(f"Output log files: {stdout_log_file}, {stderr_log_file}")
     if process.returncode != 0:
         raise CommandError(f"Command failed: {command}. Exit code: {process.returncode}")
-    return write_logs(stdout, stderr)
+    return stdout, stderr
 
 def file_exists(filepath):
     if not os.path.exists(filepath):
@@ -137,9 +136,9 @@ def main():
 
     start_time = datetime.now()
     print('Running make defconfig...')
-    run_command(make_defconfig)
+    run_command(make_defconfig, stdout_log_file="make_defconfig_stdout.log", stderr_log_file="make_defconfig_stderr.log")
     print('Building the kernel...')
-    run_command(make_common)
+    run_command(make_common, stdout_log_file="make_common_stdout.log", stderr_log_file="make_common_stderr.log")
     print('Build complete')
     elapsed_time = datetime.now() - start_time
     
@@ -175,4 +174,3 @@ def main():
     
 if __name__ == '__main__':
     main()
-
