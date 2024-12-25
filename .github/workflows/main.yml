@@ -12,8 +12,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        type: [aosp, oneui]
-        device: [a51, m30s, m21, m31, m31s, f41]
+        type: ['aosp', 'oneui']
+        device: ['a51', 'f41', 'm31s', 'm31', 'm21', 'gta4xl', 'gta4xlwifi']
     name: "Build For ${{ matrix.device }} (${{ matrix.type }})"
     steps:
       - name: Checkout
