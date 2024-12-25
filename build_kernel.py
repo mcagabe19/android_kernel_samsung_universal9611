@@ -61,8 +61,14 @@ def main():
     parser.add_argument('--target', type=str, required=True, help="Target device (a51/m21/...)")
     parser.add_argument('--allow-dirty', action='store_true', help="Allow dirty build")
     parser.add_argument('--oneui', action='store_true', help="OneUI build")
+    parser.add_argument('--aosp', action='store_true', help="AOSP build (Default)")
+    parser.add_argument('--no-ksu_next', action='store_true', help="Don't include KernelSU Next support in kernel")
     parser.add_argument('--permissive', action='store_true', help="Use SELinux permissive mode")
     args = parser.parse_args()
+
+    if args.oneui and args.aosp:
+        print("Both OneUI and AOSP flags cannot be defined at the same time.")
+        return
     
     valid_targets = ['a51', 'f41', 'm31s', 'm31', 'm21', 'gta4xl', 'gta4xlwifi']
     if args.target not in valid_targets:
@@ -94,6 +100,7 @@ def main():
         'Build Type': build_type,
         'SELinux': selinux_state,
         'Device': args.target,
+        'TARGET_INCLUDES_KSU_NEXT': not args.no_ksu_next,
         'TARGET_USES_LLVM': True,
         'TOOLCHAIN_VERSION': ClangCompiler.get_version(),
     })
@@ -114,6 +121,8 @@ def main():
         make_defconfig += ['oneui.config']
     if args.permissive:
         make_defconfig += ['permissive.config']
+    if not args.no_ksu_next:
+        make_defconfig += ['ksu_next.config']
 
     start_time = datetime.now()
     print('Running make defconfig...')

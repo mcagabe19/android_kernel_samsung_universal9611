@@ -32,7 +32,9 @@ bash <(curl -s https://gist.githubusercontent.com/cat658011/9462b1778231226b4fae
 
 # Start kernel build
 # Additional flags:
-# --oneui - Build for OneUI (Default AOSP variant).
+# --oneui - Build for OneUI.
+# --aosp - Build for AOSP (Default variant).
+# --no-ksu_next - Don't Build with KernelSU Next
 # --allow-dirty - Build kernel without wiping out/ directory.
 # --permissive - Build kernel with permissive SELinux policy.
 python3 build_kernel.py --target=(select here your device, it can be a a51, f41, m31s, gta4xl, gta4xlwifi, m21) (Additional flags)

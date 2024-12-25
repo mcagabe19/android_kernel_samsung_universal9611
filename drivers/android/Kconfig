@@ -62,6 +62,8 @@ config ANDROID_SPOOF_KERNEL_VERSION_FOR_BPF
 	  booting newer Android versions without system-side patches.
 	  Also pretends to support ANY attach_type and prog_type.
 
+source "drivers/android/kernelsu-next/Kconfig"
+
 endif # if ANDROID
 
 endmenu
