@@ -11,7 +11,7 @@ class CommandError(Exception):
 
 def run_command(command):
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stdout = process.communicate()
+    stdout, stderr = process.communicate()
     def write_logs(out, err):
         out = out.decode("utf-8")
         err = err.decode("utf-8")
