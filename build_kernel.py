@@ -131,8 +131,7 @@ def main():
         make_defconfig += ['oneui.config']
     if args.permissive:
         make_defconfig += ['permissive.config']
-    if not args.no_ksu_next:
-        make_defconfig += ['ksu_next.config']
+    make_defconfig += ['no-ksu_next.config'] if args.no_ksu_next else ['ksu_next.config']
 
     start_time = datetime.now()
     print('Running make defconfig...')
