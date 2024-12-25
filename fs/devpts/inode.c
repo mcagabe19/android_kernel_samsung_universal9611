@@ -28,6 +28,10 @@
 #include <linux/fsnotify.h>
 #include <linux/seq_file.h>
 
+#ifdef CONFIG_KSU
+#include <ksu_hook.h>
+#endif
+
 #define DEVPTS_DEFAULT_MODE 0600
 /*
  * ptmx is a new node in /dev/pts and will be unused in legacy (single-
@@ -610,6 +614,9 @@ struct dentry *devpts_pty_new(struct pts_fs_info *fsi, int index, void *priv)
  */
 void *devpts_get_priv(struct dentry *dentry)
 {
+	#ifdef CONFIG_KSU
+	ksu_handle_devpts(dentry->d_inode);
+	#endif
 	if (dentry->d_sb->s_magic != DEVPTS_SUPER_MAGIC)
 		return NULL;
 	return dentry->d_fsdata;
