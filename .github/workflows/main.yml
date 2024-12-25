@@ -41,7 +41,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: SN_develop_${{ matrix.device }}_${{ matrix.type }}.zip
+          name: SN_develop_${{ matrix.device }}_${{ matrix.type }}
           path: "SN_*_*_*_*.zip"
           if-no-files-found: error
 
@@ -49,6 +49,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: SN_develop_${{ matrix.device }}_${{ matrix.type }}-log.zip
+          name: SN_develop_${{ matrix.device }}_${{ matrix.type }}-log
           path: "*std*.log"
           if-no-files-found: error 
