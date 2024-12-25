@@ -1,0 +1,28 @@
+name: Release
+on: workflow_dispatch
+
+permissions:
+  contents: write
+  discussions: write
+
+jobs:
+  build-kernel:
+    uses: ./.github/workflows/build-kernel.yml
+
+  releaser:
+    needs: [build-kernel]
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: /home/runner
+  
+      - name: Draft the release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Actions Build"
+          draft: true
+          files: |
+            /home/runner/SN_*.zip
