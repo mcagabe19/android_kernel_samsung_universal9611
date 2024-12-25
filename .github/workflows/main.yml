@@ -1,0 +1,50 @@
+name: Build Kernel
+
+on:
+  push:
+    branches:
+      - SomethingNew-15
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        type: [aosp, oneui]
+        device: [a51, m30s, m21, m31, m31s, f41]
+    name: "Build For ${{ matrix.device }} (${{ matrix.type }})"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install bison flex libssl-dev
+          
+      - name: Setup Clang Toolchain
+        run: bash < (curl -s https://gist.githubusercontent.com/cat658011/9462b1778231226b4fae0171a8cf1fd3/raw/setup-toolchain.sh)
+
+      - name: Build The Kernel
+        run: python build_kernel.py --${{ matrix.type }} --target=${{ matrix.device }}
+
+      - name: Upload The Kernel
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: SN_develop_${{ matrix.device }}_${{ matrix.type }}.zip
+          path: GrassKernel_*.zip
+          if-no-files-found: error 
+
+      - name: Upload The Logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: SN_develop_${{ matrix.device }}_${{ matrix.type }}-faillog.zip
+          path: "*_std*.log"
+          if-no-files-found: error 
