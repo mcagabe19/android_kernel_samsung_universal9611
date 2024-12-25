@@ -49,5 +49,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SN_develop_${{ matrix.device }}_${{ matrix.type }}-log.zip
-          path: "std*.log"
+          path: "*std*.log"
           if-no-files-found: error 
