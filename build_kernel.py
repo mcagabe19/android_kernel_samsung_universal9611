@@ -73,6 +73,7 @@ def main():
     parser.add_argument('--oneui', action='store_true', help="OneUI build")
     parser.add_argument('--aosp', action='store_true', help="AOSP build (Default)")
     parser.add_argument('--no-ksu_next', action='store_true', help="Don't include KernelSU Next support in kernel")
+    parser.add_argument('--no-lto', action='store_true', help="Don't build kernel with LTO (Link Time Optimization)")
     parser.add_argument('--permissive', action='store_true', help="Use SELinux permissive mode")
     args = parser.parse_args()
 
@@ -110,9 +111,10 @@ def main():
         'Build Type': build_type,
         'SELinux': selinux_state,
         'Device': args.target,
-        'TARGET_INCLUDES_KSU_NEXT': not args.no_ksu_next,
-        'TARGET_USES_LLVM': True,
-        'TOOLCHAIN_VERSION': ClangCompiler.get_version(),
+        'With KernelSU Next': not args.no_ksu_next,
+        'Using LLVM': True,
+        'Using LTO': not args.no_lto,
+        'Toolchain Version': ClangCompiler.get_version(),
     })
     
     toolchain_path = os.path.join(os.getcwd(), 'toolchain', 'bin')
@@ -132,6 +134,7 @@ def main():
     if args.permissive:
         make_defconfig += ['permissive.config']
     make_defconfig += ['no-ksu_next.config'] if args.no_ksu_next else ['ksu_next.config']
+    make_defconfig += ['no-lto.config'] if args.no_ksu_next else ['lto.config']
 
     start_time = datetime.now()
     print('Running make defconfig...')
