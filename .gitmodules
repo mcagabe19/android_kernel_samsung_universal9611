@@ -3,4 +3,4 @@
 	url = https://github.com/Exynos9611Development/kernel_AnyKernel3
 [submodule "KernelSU-Next"]
 	path = KernelSU-Next
-	url = https://github.com/mcagabe19/KernelSU-Next-SUSFS
+	url = https://github.com/mcagabe19/KernelSU-Next-SuSFS
