@@ -21,7 +21,7 @@ A customized kernel designed to optimize performance and features for Exynos 961
 sudo apt install -y git make libssl-dev curl bc pkg-config m4 libtool automake autoconf python3-is-python3
 
 # Clone the repository.
-git clone https://github.com/Exynos9611Development/android_kernel_samsung_universal9611
+git clone https://github.com/mcagabe19-kernel-stuff/kernel_samsung_universal9611
 
 # Navigate to the repository.
 cd android_kernel_samsung_universal9611
