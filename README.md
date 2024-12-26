@@ -5,7 +5,7 @@ A customized kernel designed to optimize performance and features for Exynos 961
 ## Features
 - Removal of Samsung-specific security and debugging features.
 - Based on Tab S6 Lite kernel source
-- Compiled with Neutron Clang 19, LTO and LLVM binutils.
+- Compiled with Neutron Clang 19, LTO (Link Time Optimization) and LLVM binutils.
 - Includes Erofs, Incremental FS, BinderFS, and various backports.
 - Enhanced DeX touchpad support for compatible OneUI versions.
 - Strips away numerous Samsung-introduced debug codes/configurations.
@@ -37,7 +37,8 @@ bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main
 # Additional flags:
 # --oneui - Build for OneUI.
 # --aosp - Build for AOSP (Default variant).
-# --no-ksu_next - Don't Build with KernelSU Next
+# --no-ksu_next - Build kernel without KernelSU Next
+# --no-lto - Build kernel without LTO (Link Time Optimization)
 # --allow-dirty - Build kernel without wiping out/ directory.
 # --permissive - Build kernel with permissive SELinux policy.
 python3 build_kernel.py --target=(select here your device, it can be a a51, f41, m31s, gta4xl, gta4xlwifi, m21) (Additional flags)
