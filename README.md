@@ -18,18 +18,20 @@ A customized kernel designed to optimize performance and features for Exynos 961
 
 ```bash
 # Install necessary packages.
-sudo apt install -y git make libssl-dev curl bc pkg-config m4 libtool automake autoconf python3-is-python3
+sudo apt install -y git make libssl-dev curl bc pkg-config m4 libtool automake autoconf python3-is-python3 libarchive-tools
 
 # Clone the repository.
 git clone https://github.com/mcagabe19-kernel-stuff/kernel_samsung_universal9611
 
 # Navigate to the repository.
-cd android_kernel_samsung_universal9611
+cd kernel_samsung_universal9611
 
 # Set up the toolchain
 # Test various Clang/LLVM toolchains; Neutron Clang is preferred.
-# For Arch or newer glibc distributions, consider using Antman.
-bash <(curl -s https://gist.githubusercontent.com/cat658011/9462b1778231226b4fae0171a8cf1fd3/raw/setup-toolchain.sh)
+mkdir toolchain
+cd toolchain
+bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=09092023
+bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") --patch=glibc
 
 # Start kernel build
 # Additional flags:
