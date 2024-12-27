@@ -23,9 +23,9 @@ jobs:
       - name: Download KernelSU Next Manager
         run: |
           cd /home/runner
-          LATEST_RELEASE=$(curl -s https://api.github.com/repos/rifsxd/KernelSU-Next/releases/latest)
-          APK_URL=$(echo $LATEST_RELEASE | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
-          curl -L -o KernelSU_Next.apk "$APK_URL"
+          wget https://nightly.link/mcagabe19-kernel-stuff/KernelSU-Next-SuSFS/workflows/build-manager/next/manager.zip
+          unzip manager.zip
+          rm manager.zip
    
       - name: Draft the release
         uses: softprops/action-gh-release@v2
