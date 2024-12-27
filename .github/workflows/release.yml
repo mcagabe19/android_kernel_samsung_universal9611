@@ -33,5 +33,5 @@ jobs:
           name: "Actions Build"
           draft: true
           files: |
-            /home/runner/KernelSU_Next.apk
+            /home/runner/KernelSU_Next_*.apk
             /home/runner/SN_*.zip
