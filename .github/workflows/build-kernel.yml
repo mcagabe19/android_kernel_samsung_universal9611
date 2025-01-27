@@ -1,0 +1,44 @@
+name: Build Kernel
+
+on:
+  push:
+    branches:
+      - SomethingNew-15
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+    name: "Build For a51"
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
+        with:
+          fetch-depth: 1
+          submodules: true
+
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt install libarchive-tools
+          
+      - name: Setup Clang Toolchain
+        run: |
+          mkdir toolchain
+          cd toolchain
+          bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=10032024
+          bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") --patch=glibc
+
+      - name: Build Kernel
+        run: python build_kernel.py --target=a51
+
+      - name: Upload Kernel
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: SN_develop_a51
+          path: "SN_*.zip"
+          if-no-files-found: error
